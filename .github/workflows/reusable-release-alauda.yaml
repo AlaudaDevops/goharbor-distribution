@@ -25,16 +25,32 @@ jobs:
           go-version: "1.20.10"
           cache: false
 
-      - name: Prepare GOPATH workspace
+      - name: Build release archives
+        working-directory: ${{ github.workspace }}/src/github.com/docker/distribution
         run: |
-          echo "GOPATH=${GITHUB_WORKSPACE}" >> "${GITHUB_ENV}"
-          echo "GO111MODULE=auto" >> "${GITHUB_ENV}"
+          set -euo pipefail
 
-      - name: Release binaries
-        uses: goreleaser/goreleaser-action@v6
+          export GOPATH="${GITHUB_WORKSPACE}"
+          export GO111MODULE=auto
+          export BUILDTAGS="include_oss include_gcs"
+
+          OUT_DIR="${RUNNER_TEMP}/release-assets"
+          mkdir -p "${OUT_DIR}"
+
+          for arch in amd64 arm64; do
+            echo "Building registry for ${arch}"
+            GOOS=linux GOARCH="${arch}" CGO_ENABLED=0 make clean binaries
+            tar -C bin -czf "${OUT_DIR}/registry_Linux_${arch}.tar.gz" registry
+          done
+
+          (cd "${OUT_DIR}" && sha256sum registry_Linux_*.tar.gz > checksums.txt)
+
+      - name: Publish GitHub release assets
+        uses: softprops/action-gh-release@v2
         with:
-          version: v2.1.0
-          args: release --clean -f=goreleaser-alauda.yml
-          workdir: src/github.com/docker/distribution
+          files: |
+            ${{ runner.temp }}/release-assets/registry_Linux_amd64.tar.gz
+            ${{ runner.temp }}/release-assets/registry_Linux_arm64.tar.gz
+            ${{ runner.temp }}/release-assets/checksums.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
