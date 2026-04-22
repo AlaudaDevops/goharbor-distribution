@@ -53,6 +53,12 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ inputs.tag_name }}
+          body: |-
+            ---
+
+            This release is intended for use only as part of the Alauda product suite.
+            It is not recommended for use by individuals or teams outside of Alauda.
+            Any consequences arising from its use are the sole responsibility of the user.
           files: |
             ${{ runner.temp }}/release-assets/registry_Linux_amd64.tar.gz
             ${{ runner.temp }}/release-assets/registry_Linux_arm64.tar.gz
