@@ -29,8 +29,6 @@ builds:
 
 archives:
   - id: registry-archive
-    ids:
-      - registry
     format: tar.gz
     name_template: >-
       registry_{{- title .Os }}_{{ .Arch }}
