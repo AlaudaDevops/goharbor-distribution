@@ -30,13 +30,11 @@ jobs:
           echo "GOPATH=${GITHUB_WORKSPACE}" >> "${GITHUB_ENV}"
           echo "GO111MODULE=auto" >> "${GITHUB_ENV}"
 
-      - name: Install GoReleaser
-        run: |
-          go install github.com/goreleaser/goreleaser/v2@v2.1.0
-          echo "$(go env GOPATH)/bin" >> "${GITHUB_PATH}"
-
       - name: Release binaries
-        working-directory: ${{ github.workspace }}/src/github.com/docker/distribution
-        run: goreleaser release --clean -f=goreleaser-alauda.yml
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          version: v2.1.0
+          args: release --clean -f=goreleaser-alauda.yml
+          workdir: src/github.com/docker/distribution
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
