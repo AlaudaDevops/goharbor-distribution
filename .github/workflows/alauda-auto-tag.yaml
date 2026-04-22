@@ -12,6 +12,8 @@ permissions:
 jobs:
   tag:
     runs-on: ubuntu-latest
+    outputs:
+      new_tag: ${{ steps.latest.outputs.new_tag }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -85,3 +87,5 @@ jobs:
     name: Release Alauda
     needs: [tag]
     uses: ./.github/workflows/reusable-release-alauda.yaml
+    with:
+      tag_name: ${{ needs.tag.outputs.new_tag }}

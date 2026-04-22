@@ -2,6 +2,10 @@ name: Release Alauda
 
 on:
   workflow_call:
+    inputs:
+      tag_name:
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -48,6 +52,7 @@ jobs:
       - name: Publish GitHub release assets
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ inputs.tag_name }}
           files: |
             ${{ runner.temp }}/release-assets/registry_Linux_amd64.tar.gz
             ${{ runner.temp }}/release-assets/registry_Linux_arm64.tar.gz

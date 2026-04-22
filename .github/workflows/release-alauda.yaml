@@ -14,3 +14,5 @@ jobs:
   release-alauda:
     name: Release Alauda
     uses: ./.github/workflows/reusable-release-alauda.yaml
+    with:
+      tag_name: ${{ github.ref_name }}
