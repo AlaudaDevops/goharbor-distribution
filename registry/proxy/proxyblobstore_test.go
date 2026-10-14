@@ -1,3 +1,5 @@
+// Modified by Alauda on 2026-10-14: lint fixes for the newer golangci-lint (DEVOPS-44747)
+
 package proxy
 
 import (

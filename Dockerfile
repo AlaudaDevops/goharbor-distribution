@@ -1,4 +1,5 @@
 # syntax=docker/dockerfile:1
+# Modified by Alauda on 2026-10-14: Go/toolchain versions raised for security fixes (DEVOPS-44747)
 
 ARG GO_VERSION=1.24.13
 ARG ALPINE_VERSION=3.22
