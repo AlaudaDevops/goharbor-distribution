@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Modified by Alauda on 2026-10-14: golangci-lint version raised (DEVOPS-44747)
 
 GOLANGCI_LINT_VERSION="v1.62.2"
 
