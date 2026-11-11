@@ -1,3 +1,5 @@
+// Modified by Alauda on 2026-11-11: gofmt formatting for Go 1.27, ported from goharbor/distribution v2.8.3-harbor.3
+
 package notifications
 
 import (
@@ -53,12 +55,12 @@ type removerListener struct {
 // Listen dispatches events on the repository to the listener.
 func Listen(repo distribution.Repository, remover distribution.RepositoryRemover, listener Listener) (distribution.Repository, distribution.RepositoryRemover) {
 	return &repositoryListener{
-			Repository: repo,
-			listener:   listener,
-		}, &removerListener{
-			RepositoryRemover: remover,
-			listener:          listener,
-		}
+		Repository: repo,
+		listener:   listener,
+	}, &removerListener{
+		RepositoryRemover: remover,
+		listener:          listener,
+	}
 }
 
 func (nl *removerListener) Remove(ctx context.Context, name reference.Named) error {
